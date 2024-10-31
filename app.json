@@ -3,6 +3,7 @@
     "name": "eterlay-app",
     "slug": "eterlay-app",
     "version": "1.0.0",
+    "scheme": "eterlay-app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,6 +23,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
