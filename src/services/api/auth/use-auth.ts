@@ -30,15 +30,13 @@ export const useAuth = () => {
   const [mutate, { loading, error, data }] =
     useMutation<SignInAdminMutationResponse>(SIGN_IN_ADMIN_MUTATION)
 
-  const signInMutation = ({ payload }: SignInAdminProps) => {
-    console.log('🚀 - payload:', payload)
-
+  const signInMutation = ({ payload, onError }: SignInAdminProps) => {
     mutate({
       variables: { input: payload },
       onCompleted: async ({ signInAdmin }) => {
-        console.log('🚀 - signInAdmin:', signInAdmin)
-
         if (signInAdmin.errors.length > 0) {
+          if (onError) onError()
+
           return signInAdmin.errors.forEach((error) => {
             Toast.show({
               text1: error,
@@ -51,22 +49,18 @@ export const useAuth = () => {
 
         await SecureStore.setItemAsync(
           SECURE_STORE_PREFIX + 'accessToken',
-          token,
+          JSON.stringify(token),
         )
 
         const admin = getAdminFromStorage(token)
+
         setAdmin(admin)
 
         router.push('/(authenticated)/dashboard')
       },
-      onError: (error) => {
-        console.log('🚀 - error:', error)
-
-        const errorMessage =
-          error?.message || 'Ocorreu um erro ao realizar o login'
-
+      onError: () => {
         Toast.show({
-          text1: errorMessage,
+          text1: 'Ocorreu um erro desconhecido ao realizar o login',
           type: 'error',
         })
       },

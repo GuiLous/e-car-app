@@ -15,6 +15,7 @@ interface InputProps extends TextInputProps {
   label: string
   rightIcon?: ReactNode
   isPassword?: boolean
+  error?: boolean
 }
 
 export const Input = ({
@@ -22,6 +23,7 @@ export const Input = ({
   rightIcon,
   isPassword,
   secureTextEntry,
+  error,
   ...rest
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -38,6 +40,7 @@ export const Input = ({
         style={[
           styles.inputContainer,
           isFocused && styles.inputContainerFocused,
+          error && styles.inputContainerError,
         ]}
       >
         <TextInput
@@ -94,6 +97,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 4,
+  },
+  inputContainerError: {
+    borderColor: colors.error,
   },
   input: {
     flex: 1,

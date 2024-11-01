@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,16 +10,28 @@ import { colors } from '@/config'
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string
+  loading?: boolean
 }
 
-export function Button({ title, style, ...rest }: ButtonProps) {
+export function Button({ title, style, loading, ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={[styles.button, style]}
+      style={[styles.button, style, rest.disabled && styles.buttonDisabled]}
       {...rest}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      {loading && <ActivityIndicator size="large" color={colors.white} />}
+
+      {!loading && (
+        <Text
+          style={[
+            styles.buttonText,
+            rest.disabled && styles.buttonTextDisabled,
+          ]}
+        >
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   )
 }
@@ -31,9 +44,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  buttonDisabled: {
+    backgroundColor: colors.gray[300],
+  },
   buttonText: {
     color: colors.white,
     fontSize: 16,
     fontWeight: '600',
+  },
+  buttonTextDisabled: {
+    color: colors.gray[500],
   },
 })

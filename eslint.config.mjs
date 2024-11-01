@@ -40,7 +40,7 @@ export default [
             '/^@/services/',
             '/^@/components/shared/',
             '/^@/components/ui/',
-            '/^@/components/views/',
+            '/^@/components/fragments/',
             '/^@/views/',
             '/^@/config/',
             '/^@/utils/',

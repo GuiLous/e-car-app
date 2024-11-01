@@ -10,4 +10,5 @@ export type SignInAdminProps = {
     email: string
     password: string
   }
+  onError?: () => void
 }

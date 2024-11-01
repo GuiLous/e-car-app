@@ -1,1 +1,1 @@
-export const SECURE_STORE_PREFIX = 'ETERLAY:'
+export const SECURE_STORE_PREFIX = 'ETERPARTY_'
