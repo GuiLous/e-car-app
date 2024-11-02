@@ -58,7 +58,9 @@ export const useAuth = () => {
 
         router.push('/(authenticated)/dashboard')
       },
-      onError: () => {
+      onError: (error) => {
+        console.log('🚀 - error:', error)
+
         Toast.show({
           text1: 'Ocorreu um erro desconhecido ao realizar o login',
           type: 'error',

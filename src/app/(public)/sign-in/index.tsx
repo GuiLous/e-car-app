@@ -1,6 +1,10 @@
-import { StatusBar } from 'expo-status-bar'
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React from 'react'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+} from 'react-native'
 
 import { Form, Greetings } from '@/components/fragments'
 
@@ -8,32 +12,36 @@ import { colors } from '@/config'
 
 export default function SignIn() {
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.gray[50],
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
     >
-      <StatusBar backgroundColor={colors.gray[50]} style="dark" />
+      {/* <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.logo} />
+      </View> */}
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.scrollContent}
       >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            flexGrow: 1,
-            padding: 24,
-            justifyContent: 'center',
-          }}
-        >
-          <Greetings />
+        <Greetings />
 
-          <Form />
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <Form />
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.gray[50],
+  },
+  scrollContent: {
+    flexGrow: 1,
+    padding: 24,
+    paddingBottom: Platform.OS === 'ios' ? 40 : 24,
+    justifyContent: 'center',
+  },
+})

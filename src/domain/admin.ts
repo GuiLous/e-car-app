@@ -1,8 +1,7 @@
 export type Admin = {
   id: string
   email: string
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  isActive: boolean
+  first_name: string
+  last_name: string
+  phone_number: string
 }
