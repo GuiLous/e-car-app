@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
-import { useAuth } from '@/services/api'
+import { useSignInMutation } from '@/services/api'
 
 import { Button, Input } from '@/components/shared'
 
 export const Form: FC = () => {
-  const { signInMutation, loading } = useAuth()
+  const { signInMutation, loading } = useSignInMutation()
 
   const [email, setEmail] = useState('guilhermesilva@taller.net')
   const [password, setPassword] = useState('123123@!')

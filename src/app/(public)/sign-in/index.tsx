@@ -16,10 +16,6 @@ export default function SignIn() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      {/* <View style={styles.logoContainer}>
-        <Image source={logo} style={styles.logo} />
-      </View> */}
-
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"

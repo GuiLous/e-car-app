@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: colors.gray[300],
+    borderColor: colors.gray[300],
   },
   content: {
     flexDirection: 'row',

@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useCurrentAdmin } from '@/contexts'
 
@@ -12,15 +13,16 @@ import { colors } from '@/config'
 
 export default function AuthenticatedLayout() {
   const { admin } = useCurrentAdmin()
-  const logout = useLogout()
   const { showScanner } = useScannerStore()
+  const logout = useLogout()
+  const insets = useSafeAreaInsets()
 
   const userName = `${admin?.first_name} ${admin?.last_name}`
 
   return (
     <>
       {!showScanner && (
-        <View style={styles.header}>
+        <View style={[styles.header, { paddingTop: insets.top }]}>
           <Text style={styles.userName}>Olá, {userName}</Text>
           <TouchableOpacity style={styles.logoutButton} onPress={logout}>
             <Feather name="log-out" size={24} color={colors.error} />
@@ -51,11 +53,21 @@ export default function AuthenticatedLayout() {
         />
 
         <Tabs.Screen
-          name="ticket/index"
+          name="ticket/create-ticket"
           options={{
             title: 'Ingressos',
             tabBarIcon: ({ color, size }) => (
               <Feather name="file-text" size={size} color={color} />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="ticket/list-tickets"
+          options={{
+            title: 'Meus Ingressos',
+            tabBarIcon: ({ color, size }) => (
+              <Feather name="file" size={size} color={color} />
             ),
           }}
         />

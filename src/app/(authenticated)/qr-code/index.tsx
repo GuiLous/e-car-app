@@ -4,6 +4,8 @@ import { StyleSheet, View } from 'react-native'
 
 import { useScannerStore } from '@/stores'
 
+import { useUpdateTicketUsedMutation } from '@/services/api/ticket-code'
+
 import { Button, Input } from '@/components/shared'
 
 import { QrCodeScanner } from '@/components/fragments'
@@ -13,17 +15,44 @@ import { colors } from '@/config'
 export default function QRCode() {
   const [ticketCode, setTicketCode] = useState('')
   const { showScanner, setShowScanner } = useScannerStore()
+  const { updateTicketUsedMutation, loading } = useUpdateTicketUsedMutation()
+  const [hasError, setHasError] = useState(false)
+  const [hasUpdated, setHasUpdated] = useState(false)
 
+  const disableVerifyButton = loading || ticketCode.length === 0
   const handleOpenQRCodeReader = () => {
     setShowScanner(true)
   }
 
+  const onSuccess = () => {
+    setTicketCode('')
+    setHasUpdated(true)
+  }
+
+  const onError = () => {
+    setHasError(true)
+  }
+
   const handleVerifyTicket = () => {
-    console.log('Verificando ticket:', ticketCode)
+    updateTicketUsedMutation({
+      payload: { uuid: ticketCode },
+      onSuccess,
+      onError,
+    })
+  }
+
+  const handleBarcodeScanned = (barcode: string) => {
+    updateTicketUsedMutation({ payload: { uuid: barcode }, onSuccess, onError })
   }
 
   return showScanner ? (
-    <QrCodeScanner />
+    <QrCodeScanner
+      onBarcodeScanned={handleBarcodeScanned}
+      failed={hasError}
+      setHasError={setHasError}
+      hasUpdated={hasUpdated}
+      setHasUpdated={setHasUpdated}
+    />
   ) : (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -44,8 +73,16 @@ export default function QRCode() {
             style={styles.verifyButton}
             variant="secondary"
             leftIcon={
-              <Feather name="check" size={20} color={colors.primary[600]} />
+              <Feather
+                name="check"
+                size={20}
+                color={
+                  disableVerifyButton ? colors.gray[500] : colors.primary[600]
+                }
+              />
             }
+            loading={loading}
+            disabled={disableVerifyButton}
           />
         </View>
 
@@ -53,6 +90,7 @@ export default function QRCode() {
           title="Ler QR Code"
           onPress={handleOpenQRCodeReader}
           leftIcon={<Feather name="camera" size={20} color={colors.white} />}
+          disabled={loading}
         />
       </View>
     </View>

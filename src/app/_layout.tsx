@@ -1,15 +1,13 @@
 import { ApolloProvider } from '@apollo/client'
 import { Slot, useRouter, useSegments } from 'expo-router'
 import React, { useEffect } from 'react'
-import { SafeAreaView } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 
 import { AdminContextProvider, useCurrentAdmin } from '@/contexts'
 
 import { createApolloClient } from '@/services/api'
-
-import { colors } from '@/config'
 
 function ProtectedRouteLayout() {
   const { admin } = useCurrentAdmin()
@@ -34,17 +32,12 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ApolloProvider client={client}>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: colors.gray[50],
-          }}
-        >
+        <SafeAreaProvider>
           <AdminContextProvider>
             <ProtectedRouteLayout />
             <Toast />
           </AdminContextProvider>
-        </SafeAreaView>
+        </SafeAreaProvider>
       </ApolloProvider>
     </GestureHandlerRootView>
   )

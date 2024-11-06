@@ -23,7 +23,7 @@ const SIGN_IN_ADMIN_MUTATION = gql`
   }
 `
 
-export const useAuth = () => {
+export const useSignInMutation = () => {
   const { setAdmin } = useCurrentAdmin()
   const { getAdminFromStorage } = useGetAdminFromStorage()
 
@@ -58,11 +58,9 @@ export const useAuth = () => {
 
         router.push('/(authenticated)/dashboard')
       },
-      onError: (error) => {
-        console.log('🚀 - error:', error)
-
+      onError: () => {
         Toast.show({
-          text1: 'Ocorreu um erro desconhecido ao realizar o login',
+          text1: 'Ocorreu um erro desconhecido ao realizar o login!',
           type: 'error',
         })
       },

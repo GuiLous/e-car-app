@@ -12,10 +12,11 @@ import {
 import { colors } from '@/config'
 
 interface InputProps extends TextInputProps {
-  label: string
+  label?: string
   rightIcon?: ReactNode
   isPassword?: boolean
   error?: boolean
+  multiline?: boolean
 }
 
 export const Input = ({
@@ -24,6 +25,7 @@ export const Input = ({
   isPassword,
   secureTextEntry,
   error,
+  multiline,
   ...rest
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -35,19 +37,22 @@ export const Input = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <View
         style={[
           styles.inputContainer,
           isFocused && styles.inputContainerFocused,
           error && styles.inputContainerError,
+          multiline && styles.inputContainerMultiline,
         ]}
       >
         <TextInput
-          style={styles.input}
+          style={[styles.input, multiline && styles.inputMultiline]}
           secureTextEntry={isPassword ? !showPassword : secureTextEntry}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          multiline={multiline}
+          textAlignVertical={multiline ? 'top' : 'center'}
           {...rest}
         />
 
@@ -73,6 +78,7 @@ export const Input = ({
 const styles = StyleSheet.create({
   container: {
     gap: 8,
+    width: '100%',
   },
   label: {
     color: colors.gray[500],
@@ -101,11 +107,24 @@ const styles = StyleSheet.create({
   inputContainerError: {
     borderColor: colors.error,
   },
+  inputContainerMultiline: {
+    minHeight: 120,
+    height: 'auto',
+    alignItems: 'flex-start',
+  },
   input: {
     flex: 1,
     height: '100%',
     paddingHorizontal: 16,
     fontSize: 16,
+  },
+  inputMultiline: {
+    height: 'auto',
+    minHeight: 120,
+    maxHeight: 200,
+    paddingTop: 12,
+    paddingBottom: 12,
+    lineHeight: 24,
   },
   iconContainer: {
     paddingRight: 16,

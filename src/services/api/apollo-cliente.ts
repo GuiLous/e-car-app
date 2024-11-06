@@ -31,10 +31,12 @@ const authMiddleware = setContext(async (_, { headers }) => {
     return { headers }
   }
 
+  const cleanToken = token.replace(/['"]+/g, '')
+
   return {
     headers: {
       ...headers,
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${cleanToken}`,
     },
   }
 })
