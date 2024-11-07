@@ -13,13 +13,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.guilou.eterlayapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.guilou.eterlayapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,6 +29,11 @@
     "plugins": [
       "expo-router",
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0310b249-a205-43d4-8e2b-e0ce4bca5c32"
+      }
+    }
   }
 }
