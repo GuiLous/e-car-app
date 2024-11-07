@@ -1,4 +1,5 @@
-import React from 'react'
+import * as SecureStore from 'expo-secure-store'
+import React, { useEffect } from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -8,9 +9,13 @@ import {
 
 import { Form, Greetings } from '@/components/fragments'
 
-import { colors } from '@/config'
+import { colors, SECURE_STORE_PREFIX } from '@/config'
 
 export default function SignIn() {
+  useEffect(() => {
+    SecureStore.deleteItemAsync(SECURE_STORE_PREFIX + 'accessToken')
+  }, [])
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
