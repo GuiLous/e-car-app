@@ -24,19 +24,24 @@ type Tab = {
 
 export default function AuthenticatedLayout() {
   const { admin } = useCurrentAdmin()
-
   const { showScanner } = useScannerStore()
   const logout = useLogout()
   const insets = useSafeAreaInsets()
 
-  const userName = `${admin?.first_name} ${admin?.last_name}`
+  const userName = `${admin?.firstName} ${admin?.lastName}`
 
   const tabs: Tab[] = [
     {
-      name: 'dashboard/index',
+      name: 'dashboard',
       title: 'Dashboard',
       icon: 'home',
       roles: ['master', 'director', 'member'],
+    },
+    {
+      name: 'admin',
+      title: 'Usuários',
+      icon: 'users',
+      roles: ['master'],
     },
     {
       name: 'ticket/create-ticket',

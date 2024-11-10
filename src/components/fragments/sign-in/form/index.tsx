@@ -8,8 +8,8 @@ import { Button, Input } from '@/components/shared'
 export const Form: FC = () => {
   const { signInMutation, loading } = useSignInMutation()
 
-  const [email, setEmail] = useState('guilhermesilva@taller.net')
-  const [password, setPassword] = useState('123123@!')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [hasError, setHasError] = useState(false)
 
   const handleClearError = () => {

@@ -30,7 +30,6 @@ export const SearchInput: FC<SearchInputProps> = ({
 const styles = StyleSheet.create({
   searchContainer: {
     width: '100%',
-    paddingHorizontal: 16,
     marginBottom: 24,
   },
 })

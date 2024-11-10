@@ -53,6 +53,7 @@ export const Input = ({
           onBlur={() => setIsFocused(false)}
           multiline={multiline}
           textAlignVertical={multiline ? 'top' : 'center'}
+          placeholderTextColor={colors.gray[300]}
           {...rest}
         />
 

@@ -9,6 +9,8 @@ import { AdminContextProvider, useCurrentAdmin } from '@/contexts'
 
 import { createApolloClient } from '@/services/api'
 
+import { toastConfig } from '@/config/toast'
+
 function ProtectedRouteLayout() {
   const { admin } = useCurrentAdmin()
   const segments = useSegments()
@@ -35,7 +37,7 @@ export default function RootLayout() {
         <SafeAreaProvider>
           <AdminContextProvider>
             <ProtectedRouteLayout />
-            <Toast />
+            <Toast config={toastConfig} topOffset={60} position="top" />
           </AdminContextProvider>
         </SafeAreaProvider>
       </ApolloProvider>

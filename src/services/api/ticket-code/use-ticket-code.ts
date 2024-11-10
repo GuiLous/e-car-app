@@ -2,6 +2,8 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import Toast from 'react-native-toast-message'
 
 import {
+  DeleteTicketCodeMutationResponse,
+  DeleteTicketCodeProps,
   ListTicketCodesQueryResponse,
   UpdateTicketUsedMutationResponse,
   UpdateTicketUsedProps,
@@ -11,6 +13,15 @@ const UPDATE_TICKET_USED_MUTATION = gql`
   mutation UpdateTicketUsed($input: UpdateTicketUsedInput!) {
     updateTicketUsed(input: $input) {
       updatedId
+      errors
+    }
+  }
+`
+
+const DELETE_TICKET_CODE_MUTATION = gql`
+  mutation DeleteTicketCode($input: DeleteTicketCodeInput!) {
+    deleteTicketCode(input: $input) {
+      deletedId
       errors
     }
   }
@@ -29,6 +40,7 @@ const LIST_TICKET_CODES_QUERY = gql`
         price
         quantity
         title
+        manual
       }
       used
       usedAt
@@ -79,6 +91,51 @@ export const useUpdateTicketUsedMutation = () => {
   }
 
   return { updateTicketUsedMutation, loading, error, data }
+}
+
+export const useDeleteTicketCodeMutation = () => {
+  const [mutate, { loading, error, data }] =
+    useMutation<DeleteTicketCodeMutationResponse>(DELETE_TICKET_CODE_MUTATION)
+
+  const deleteTicketCodeMutation = ({
+    payload,
+    onSuccess,
+    onError,
+  }: DeleteTicketCodeProps) => {
+    mutate({
+      variables: { input: payload },
+      onCompleted: async ({ deleteTicketCode }) => {
+        if (deleteTicketCode.errors.length > 0) {
+          if (onError) onError()
+
+          return deleteTicketCode.errors.forEach((error) => {
+            Toast.show({
+              text1: error,
+              type: 'error',
+            })
+          })
+        }
+
+        Toast.show({
+          text1: 'Pedido deletado com sucesso!',
+          type: 'success',
+          visibilityTime: 3500,
+        })
+
+        if (onSuccess) return onSuccess()
+      },
+      onError: () => {
+        if (onError) onError()
+        Toast.show({
+          text1: 'Ocorreu um erro desconhecido ao deletar o pedido!',
+          type: 'error',
+        })
+      },
+      refetchQueries: ['TicketCodes'],
+    })
+  }
+
+  return { deleteTicketCodeMutation, loading, error, data }
 }
 
 export const useListTicketCodes = () => {

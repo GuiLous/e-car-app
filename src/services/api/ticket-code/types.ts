@@ -18,3 +18,18 @@ export type UpdateTicketUsedProps = {
 export type ListTicketCodesQueryResponse = {
   ticketCodes: TicketCode[]
 }
+
+export type DeleteTicketCodeMutationResponse = {
+  deleteTicketCode: {
+    deletedId: number
+    errors: string[]
+  }
+}
+
+export type DeleteTicketCodeProps = {
+  payload: {
+    id: number
+  }
+  onSuccess?: () => void
+  onError?: () => void
+}

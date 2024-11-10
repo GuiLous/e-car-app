@@ -1,7 +1,7 @@
 import React from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native'
 
-import { useListTickets } from '@/services/api'
+import { useDeleteTicketMutation, useListTickets } from '@/services/api'
 
 import { ListTicketItem } from '@/components/fragments'
 
@@ -9,6 +9,20 @@ import { colors } from '@/config'
 
 export default function ListTickets() {
   const { data, refetch, loading } = useListTickets()
+  const { deleteTicketMutation } = useDeleteTicketMutation()
+
+  const handleDeleteTicket = (id: number) => {
+    Alert.alert('Atenção', 'Tem certeza que deseja deletar o ingresso?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Deletar',
+        onPress: () => deleteTicketMutation({ payload: { id } }),
+      },
+    ])
+  }
 
   return (
     <View style={styles.container}>
@@ -16,7 +30,9 @@ export default function ListTickets() {
 
       <FlatList
         data={data?.tickets || []}
-        renderItem={({ item }) => <ListTicketItem item={item} />}
+        renderItem={({ item }) => (
+          <ListTicketItem item={item} onDelete={handleDeleteTicket} />
+        )}
         keyExtractor={(item) => item.id.toString()}
         style={styles.list}
         contentContainerStyle={styles.listContent}

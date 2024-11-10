@@ -2,31 +2,31 @@ import { Feather } from '@expo/vector-icons'
 import React, { FC } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import { Ticket } from '@/domain'
+import { Admin } from '@/domain'
 
 import { colors } from '@/config'
 
-import { formatDateToBRL } from '@/utils'
-
-type ListTicketItemProps = {
-  item: Ticket
+type ListAdminsProps = {
+  item: Admin
   onDelete: (id: number) => void
 }
 
-export const ListTicketItem: FC<ListTicketItemProps> = ({ item, onDelete }) => {
+export const ListAdmins: FC<ListAdminsProps> = ({ item, onDelete }) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.itemInfo}>
-        <Text style={styles.itemText}>{item.name}</Text>
+        <Text style={styles.itemText}>
+          {item.firstName} {item.lastName}
+        </Text>
 
-        <View style={styles.buyerInfo}>
-          <View style={styles.buyerInfoRow}>
-            <Text style={styles.buyerText}>Local: </Text>
-            <Text style={styles.buyerValue}>{item.location}</Text>
+        <View style={styles.adminInfo}>
+          <View style={styles.adminInfoRow}>
+            <Text style={styles.adminText}>Email: </Text>
+            <Text style={styles.adminValue}>{item.email}</Text>
           </View>
-          <View style={styles.buyerInfoRow}>
-            <Text style={styles.buyerText}>Data: </Text>
-            <Text style={styles.buyerValue}>{formatDateToBRL(item.date)}</Text>
+          <View style={styles.adminInfoRow}>
+            <Text style={styles.adminText}>Permissão: </Text>
+            <Text style={styles.adminValue}>{item.role}</Text>
           </View>
         </View>
       </View>
@@ -52,32 +52,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemText: {
-    fontSize: 18,
-    color: colors.gray[500],
-    maxWidth: 240,
-  },
-  itemPrice: {
     fontSize: 16,
-    fontWeight: '600',
-    color: colors.gray[800],
+    fontWeight: '500',
+    color: colors.black,
+    maxWidth: 224,
   },
   itemInfo: {
     flex: 1,
     gap: 8,
   },
-  buyerInfo: {
+  adminInfo: {
     marginTop: 8,
   },
-  buyerText: {
+  adminText: {
     fontSize: 14,
     color: colors.gray[800],
     fontWeight: '500',
   },
-  buyerValue: {
+  adminValue: {
     fontSize: 14,
     color: colors.gray[500],
   },
-  buyerInfoRow: {
+  adminInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

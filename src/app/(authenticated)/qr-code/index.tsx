@@ -21,6 +21,7 @@ export default function QRCode() {
   const [hasUpdated, setHasUpdated] = useState(false)
 
   const disableVerifyButton = loading || ticketCode.length === 0
+
   const handleOpenQRCodeReader = () => {
     setShowScanner(true)
   }
