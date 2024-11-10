@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 18,
     color: colors.gray[500],
+    maxWidth: 240,
   },
   itemPrice: {
     fontSize: 16,

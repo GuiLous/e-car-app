@@ -12,7 +12,7 @@ import { SECURE_STORE_PREFIX } from '@/config'
 
 import { isTokenValid } from '@/utils'
 
-const uri = 'https://eterparty-01-1cbedac1efb6.herokuapp.com/graphql'
+const uri = 'http://192.168.0.6:3000/graphql'
 
 const httpLink = createHttpLink({ uri, credentials: 'include' })
 

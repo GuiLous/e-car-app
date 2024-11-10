@@ -56,7 +56,17 @@ export const useSignInMutation = () => {
 
         setAdmin(admin)
 
-        router.push('/(authenticated)/dashboard')
+        const role = admin?.role
+
+        console.log('🚀 - role 2:', role)
+
+        if (role === 'member')
+          return router.push('/(authenticated)/(member)/dashboard')
+
+        if (role === 'director')
+          return router.push('/(authenticated)/(director)/dashboard')
+
+        return router.push('/(authenticated)/(master)/dashboard')
       },
       onError: () => {
         Toast.show({
