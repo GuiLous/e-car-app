@@ -1,14 +1,17 @@
+import { Feather } from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard'
 import { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Toast from 'react-native-toast-message'
 
-import { OrderItem } from '@/domain'
+import { TicketCode } from '@/domain'
 
 import { colors } from '@/config'
 
 import { formatAmountToBRL, formatPhoneNumber } from '@/utils'
 
 type ListItemProps = {
-  item: OrderItem
+  item: TicketCode
 }
 
 const getStatusStyle = (status: string) => {
@@ -23,29 +26,46 @@ const getStatusStyle = (status: string) => {
 }
 
 export const ListItem: FC<ListItemProps> = ({ item }) => {
+  const handleCopyUUID = async () => {
+    await Clipboard.setStringAsync(item.uuid)
+    Toast.show({
+      text1: 'Código copiado!',
+    })
+  }
+
   return (
     <View style={styles.itemContainer}>
       <View style={styles.itemInfo}>
-        <Text style={styles.itemText}>
-          {item.title} - Qtd: {item.quantity}
-        </Text>
+        <Text style={styles.itemText}>{item.shopifyOrderItem.title}</Text>
+        <View style={styles.uuidContainer}>
+          <Text style={styles.itemUuid}>{item.uuid}</Text>
+          <TouchableOpacity onPress={handleCopyUUID} style={styles.copyButton}>
+            <Feather name="copy" size={16} color={colors.gray[500]} />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.itemPrice}>
-          {formatAmountToBRL(Number(item.price))}
+          {formatAmountToBRL(Number(item.shopifyOrderItem.price))}
         </Text>
 
         <View style={styles.buyerInfo}>
           <View style={styles.buyerInfoRow}>
             <Text style={styles.buyerText}>Comprador: </Text>
-            <Text style={styles.buyerValue}>{item.customerName}</Text>
+            <Text style={styles.buyerValue}>
+              {item.shopifyOrderItem.customerName}
+            </Text>
           </View>
           <View style={styles.buyerInfoRow}>
             <Text style={styles.buyerText}>Email: </Text>
-            <Text style={styles.buyerValue}>{item.customerEmail}</Text>
+            <Text style={styles.buyerValue}>
+              {item.shopifyOrderItem.customerEmail}
+            </Text>
           </View>
           <View style={styles.buyerInfoRow}>
             <Text style={styles.buyerText}>Telefone: </Text>
             <Text style={styles.buyerValue}>
-              {formatPhoneNumber(item.customerPhone || '-----------')}
+              {formatPhoneNumber(
+                item.shopifyOrderItem.customerPhone || '-----------',
+              )}
             </Text>
           </View>
         </View>
@@ -53,11 +73,11 @@ export const ListItem: FC<ListItemProps> = ({ item }) => {
         <View
           style={[
             styles.statusBadge,
-            getStatusStyle(item.ticketCode?.used ? 'completed' : 'pending'),
+            getStatusStyle(item.used ? 'completed' : 'pending'),
           ]}
         >
           <Text style={styles.statusText}>
-            {item.ticketCode?.used ? 'Usado' : 'Não usado'}
+            {item.used ? 'Usado' : 'Não usado'}
           </Text>
         </View>
       </View>
@@ -77,6 +97,12 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
+    fontWeight: '500',
+    color: colors.black,
+    maxWidth: 224,
+  },
+  itemUuid: {
+    fontSize: 14,
     color: colors.gray[500],
   },
   itemPrice: {
@@ -121,5 +147,13 @@ const styles = StyleSheet.create({
   buyerInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  uuidContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  copyButton: {
+    padding: 4,
   },
 })

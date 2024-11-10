@@ -1,3 +1,5 @@
+import { TicketCode } from '@/domain'
+
 export type UpdateTicketUsedMutationResponse = {
   updateTicketUsed: {
     updatedId: number
@@ -11,4 +13,8 @@ export type UpdateTicketUsedProps = {
   }
   onSuccess?: () => void
   onError?: () => void
+}
+
+export type ListTicketCodesQueryResponse = {
+  ticketCodes: TicketCode[]
 }

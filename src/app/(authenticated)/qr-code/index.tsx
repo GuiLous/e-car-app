@@ -13,9 +13,10 @@ import { QrCodeScanner } from '@/components/fragments'
 import { colors } from '@/config'
 
 export default function QRCode() {
-  const [ticketCode, setTicketCode] = useState('')
   const { showScanner, setShowScanner } = useScannerStore()
   const { updateTicketUsedMutation, loading } = useUpdateTicketUsedMutation()
+
+  const [ticketCode, setTicketCode] = useState('')
   const [hasError, setHasError] = useState(false)
   const [hasUpdated, setHasUpdated] = useState(false)
 

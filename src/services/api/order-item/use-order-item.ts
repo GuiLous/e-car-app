@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 
 import { OrderItemsQueryResponse } from '@/services/api/order-item/types'
 
-const ORDER_ITEMS_QUERY = gql`
+const LIST_ORDER_ITEMS_QUERY = gql`
   query OrderItems {
     orderItems {
       id
@@ -22,7 +22,7 @@ const ORDER_ITEMS_QUERY = gql`
 
 export const useListOrderItems = () => {
   const { data, loading, error, refetch } = useQuery<OrderItemsQueryResponse>(
-    ORDER_ITEMS_QUERY,
+    LIST_ORDER_ITEMS_QUERY,
     {
       fetchPolicy: 'network-only',
       pollInterval: 10000,

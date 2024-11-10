@@ -1,28 +1,33 @@
 import React, { useMemo, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 
-import { useListOrderItems } from '@/services/api'
+import { useListTicketCodes } from '@/services/api/ticket-code'
 
 import { ListItem, SearchInput } from '@/components/fragments'
 
 import { colors } from '@/config'
 
 export default function Dashboard() {
-  const { data, refetch, loading } = useListOrderItems()
+  const { data, refetch, loading } = useListTicketCodes()
   const [searchText, setSearchText] = useState('')
 
   const filteredItems = useMemo(() => {
-    if (!searchText.trim()) return data?.orderItems || []
+    if (!searchText.trim()) return data?.ticketCodes || []
 
     const searchLower = searchText.toLowerCase()
-    return (data?.orderItems || []).filter(
+
+    return (data?.ticketCodes || []).filter(
       (item) =>
-        item.title.toLowerCase().includes(searchLower) ||
-        item.customerName.toLowerCase().includes(searchLower) ||
-        item.customerEmail.toLowerCase().includes(searchLower) ||
-        item.customerPhone?.includes(searchText),
+        item.shopifyOrderItem.title.toLowerCase().includes(searchLower) ||
+        item.shopifyOrderItem.customerName
+          .toLowerCase()
+          .includes(searchLower) ||
+        item.shopifyOrderItem.customerEmail
+          .toLowerCase()
+          .includes(searchLower) ||
+        item.shopifyOrderItem.customerPhone?.includes(searchText),
     )
-  }, [data?.orderItems, searchText])
+  }, [data?.ticketCodes, searchText])
 
   return (
     <View style={styles.container}>
