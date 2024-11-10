@@ -19,16 +19,8 @@ function ProtectedRouteLayout() {
 
     if (!admin && inAuthGroup) return router.replace('/')
 
-    const role = admin?.role
-
-    if (admin && !inAuthGroup && role === 'member')
-      return router.replace('/(authenticated)/(member)/dashboard')
-
-    if (admin && !inAuthGroup && role === 'director')
-      return router.replace('/(authenticated)/(director)/dashboard')
-
-    if (admin && !inAuthGroup && role === 'master')
-      return router.replace('/(authenticated)/(master)/dashboard')
+    if (admin && !inAuthGroup)
+      return router.replace('/(authenticated)/dashboard')
   }, [admin, segments])
 
   return <Slot />

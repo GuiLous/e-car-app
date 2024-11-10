@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { Slot } from 'expo-router'
+import { Tabs } from 'expo-router'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -9,15 +9,57 @@ import { useLogout } from '@/hooks/use-logout'
 
 import { useScannerStore } from '@/stores'
 
+import { AdminRole } from '@/domain'
+
 import { colors } from '@/config'
+
+type FeatherIconName = keyof typeof Feather.glyphMap
+
+type Tab = {
+  name: string
+  title: string
+  icon: FeatherIconName
+  roles: AdminRole[]
+}
 
 export default function AuthenticatedLayout() {
   const { admin } = useCurrentAdmin()
+
   const { showScanner } = useScannerStore()
   const logout = useLogout()
   const insets = useSafeAreaInsets()
 
   const userName = `${admin?.first_name} ${admin?.last_name}`
+
+  const tabs: Tab[] = [
+    {
+      name: 'dashboard/index',
+      title: 'Dashboard',
+      icon: 'home',
+      roles: ['master', 'director', 'member'],
+    },
+    {
+      name: 'ticket/create-ticket',
+      title: 'Ingressos',
+      icon: 'file-text',
+      roles: ['master', 'director'],
+    },
+    {
+      name: 'ticket/list-tickets',
+      title: 'Meus Ingressos',
+      icon: 'file',
+      roles: ['master', 'director'],
+    },
+    {
+      name: 'qr-code/index',
+      title: 'QR Code',
+      icon: 'camera',
+      roles: ['master', 'director', 'member'],
+    },
+  ]
+
+  const userHasAccess = (tabRoles: AdminRole[]) =>
+    tabRoles.includes(admin?.role || 'member')
 
   return (
     <>
@@ -30,7 +72,41 @@ export default function AuthenticatedLayout() {
         </View>
       )}
 
-      <Slot />
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: colors.primary[600],
+          tabBarInactiveTintColor: colors.gray[500],
+          tabBarStyle: {
+            height: 60,
+            paddingBottom: 8,
+            paddingTop: 8,
+          },
+        }}
+      >
+        {tabs.map((tab) =>
+          userHasAccess(tab.roles) ? (
+            <Tabs.Screen
+              key={tab.name}
+              name={tab.name}
+              options={{
+                title: tab.title,
+                tabBarIcon: ({ color, size }) => (
+                  <Feather name={tab.icon} size={size} color={color} />
+                ),
+              }}
+            />
+          ) : (
+            <Tabs.Screen
+              key={tab.name}
+              name={tab.name}
+              options={{
+                href: null,
+              }}
+            />
+          ),
+        )}
+      </Tabs>
     </>
   )
 }
