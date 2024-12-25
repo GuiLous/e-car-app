@@ -95,15 +95,6 @@ const styles = StyleSheet.create({
   },
   inputContainerFocused: {
     borderColor: colors.gray[800],
-
-    shadowColor: colors.gray[800],
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 4,
   },
   inputContainerError: {
     borderColor: colors.error,

@@ -1,13 +1,13 @@
 import { jwtDecode } from 'jwt-decode'
 
-import { Admin } from '@/domain'
+import { User } from '@/domain'
 
-export const useGetAdminFromStorage = () => {
-  const getAdminFromStorage = (token: string) => {
-    const decodedToken = jwtDecode(token) as Admin
+export const useGetUserFromStorage = () => {
+  const getUserFromStorage = (token: string) => {
+    const decodedToken = jwtDecode(token) as User
 
     return decodedToken
   }
 
-  return { getAdminFromStorage }
+  return { getUserFromStorage }
 }

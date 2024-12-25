@@ -1,11 +1,11 @@
 import { Redirect } from 'expo-router'
 
-import { useCurrentAdmin } from '@/contexts'
+import { useCurrentUser } from '@/contexts'
 
 export default function Home() {
-  const { admin } = useCurrentAdmin()
+  const { user } = useCurrentUser()
 
-  if (admin) {
+  if (user) {
     return <Redirect href="/(authenticated)/dashboard" />
   }
 

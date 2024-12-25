@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import { FC, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
@@ -24,6 +25,8 @@ export const Form: FC = () => {
     signInMutation({ payload: { email, password }, onError: handleErrorSignIn })
   }
 
+  const handleRedirectToSignUp = () => router.push('/home')
+
   useEffect(() => {
     if (hasError && (email || password)) handleClearError()
   }, [email, password])
@@ -49,13 +52,26 @@ export const Form: FC = () => {
         error={hasError}
       />
 
-      <Button
-        loading={loading}
-        disabled={!email || !password}
-        title="Entrar"
-        style={{ marginTop: 16 }}
-        onPress={handleSignIn}
-      />
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        <Button
+          loading={loading}
+          disabled={!email || !password}
+          title="Entrar"
+          style={{ marginTop: 16 }}
+          onPress={handleSignIn}
+        />
+
+        <Button
+          title="Criar uma conta"
+          style={{ marginTop: 16 }}
+          onPress={handleRedirectToSignUp}
+          variant="secondary"
+        />
+      </View>
     </View>
   )
 }

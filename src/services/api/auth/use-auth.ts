@@ -3,20 +3,20 @@ import { router } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 import Toast from 'react-native-toast-message'
 
-import { useCurrentAdmin } from '@/contexts'
+import { useCurrentUser } from '@/contexts'
 
-import { useGetAdminFromStorage } from '@/hooks'
+import { useGetUserFromStorage } from '@/hooks'
 
 import {
-  SignInAdminMutationResponse,
-  SignInAdminProps,
+  SignInUserMutationResponse,
+  SignInUserProps,
 } from '@/services/api/auth/types'
 
 import { SECURE_STORE_PREFIX } from '@/config'
 
-const SIGN_IN_ADMIN_MUTATION = gql`
-  mutation SignInAdmin($input: SignInAdminInput!) {
-    signInAdmin(input: $input) {
+const SIGN_IN_USER_MUTATION = gql`
+  mutation SignIn($input: SignInUserInput!) {
+    signIn(input: $input) {
       token
       errors
     }
@@ -24,20 +24,20 @@ const SIGN_IN_ADMIN_MUTATION = gql`
 `
 
 export const useSignInMutation = () => {
-  const { setAdmin } = useCurrentAdmin()
-  const { getAdminFromStorage } = useGetAdminFromStorage()
+  const { setUser } = useCurrentUser()
+  const { getUserFromStorage } = useGetUserFromStorage()
 
   const [mutate, { loading, error, data }] =
-    useMutation<SignInAdminMutationResponse>(SIGN_IN_ADMIN_MUTATION)
+    useMutation<SignInUserMutationResponse>(SIGN_IN_USER_MUTATION)
 
-  const signInMutation = ({ payload, onError }: SignInAdminProps) => {
+  const signInMutation = ({ payload, onError }: SignInUserProps) => {
     mutate({
       variables: { input: payload },
-      onCompleted: async ({ signInAdmin }) => {
-        if (signInAdmin.errors.length > 0) {
+      onCompleted: async ({ signIn }) => {
+        if (signIn.errors.length > 0) {
           if (onError) onError()
 
-          return signInAdmin.errors.forEach((error) => {
+          return signIn.errors.forEach((error) => {
             Toast.show({
               text1: error,
               type: 'error',
@@ -45,16 +45,16 @@ export const useSignInMutation = () => {
           })
         }
 
-        const { token } = signInAdmin
+        const { token } = signIn
 
         await SecureStore.setItemAsync(
           SECURE_STORE_PREFIX + 'accessToken',
           JSON.stringify(token),
         )
 
-        const admin = getAdminFromStorage(token)
+        const user = getUserFromStorage(token)
 
-        setAdmin(admin)
+        setUser(user)
 
         router.push('/(authenticated)/dashboard')
       },

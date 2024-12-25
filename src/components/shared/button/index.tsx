@@ -39,7 +39,7 @@ export function Button({
       {loading ? (
         <ActivityIndicator
           size="small"
-          color={variant === 'secondary' ? colors.primary[600] : colors.white}
+          color={variant === 'secondary' ? colors.gray[600] : colors.white}
         />
       ) : (
         <View style={styles.content}>
@@ -62,14 +62,14 @@ export function Button({
 const styles = StyleSheet.create({
   button: {
     height: 52,
-    backgroundColor: colors.primary[600],
+    backgroundColor: colors.gray[600],
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonDisabled: {
-    backgroundColor: colors.gray[300],
-    borderColor: colors.gray[300],
+    backgroundColor: colors.gray[200],
+    borderColor: colors.gray[200],
   },
   content: {
     flexDirection: 'row',
@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonSecondary: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.blue[500],
     borderWidth: 2,
-    borderColor: colors.primary[600],
+    borderColor: colors.blue[500],
   },
   buttonTextSecondary: {
-    color: colors.primary[600],
+    color: colors.white,
   },
 })

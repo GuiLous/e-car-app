@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   Image,
   KeyboardAvoidingView,
@@ -31,7 +31,7 @@ export default function SignIn() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={{ alignItems: 'center', marginBottom: 40 }}>
-          <Image source={logo} style={{ width: 160, height: 160 }} />
+          <Image source={logo} style={{ width: 290, height: 120 }} />
         </View>
 
         <Greetings />

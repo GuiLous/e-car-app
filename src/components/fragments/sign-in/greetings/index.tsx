@@ -15,7 +15,9 @@ export const Greetings: FC = () => {
       >
         Bem-vindo 👋
       </Text>
-      <Text style={{ color: colors.gray[500] }}>Faça login para continuar</Text>
+      <Text style={{ color: colors.gray[500] }}>
+        Faça login para continuar ou cadastre-se!
+      </Text>
     </View>
   )
 }

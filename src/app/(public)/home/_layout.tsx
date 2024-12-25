@@ -18,13 +18,6 @@ export default function DashboardLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="create-order"
-        options={{
-          headerTitle: '',
-          headerShadowVisible: false,
-        }}
-      />
     </Stack>
   )
 }

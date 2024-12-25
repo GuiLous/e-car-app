@@ -1,11 +1,11 @@
-export type SignInAdminMutationResponse = {
-  signInAdmin: {
+export type SignInUserMutationResponse = {
+  signIn: {
     token: string
     errors: string[]
   }
 }
 
-export type SignInAdminProps = {
+export type SignInUserProps = {
   payload: {
     email: string
     password: string
