@@ -25,7 +25,7 @@ export const Form: FC = () => {
     signInMutation({ payload: { email, password }, onError: handleErrorSignIn })
   }
 
-  const handleRedirectToSignUp = () => router.push('/home')
+  const handleRedirectToSignUp = () => router.push('/sign-up')
 
   useEffect(() => {
     if (hasError && (email || password)) handleClearError()
@@ -52,11 +52,7 @@ export const Form: FC = () => {
         error={hasError}
       />
 
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
+      <View style={{ gap: 12 }}>
         <Button
           loading={loading}
           disabled={!email || !password}
@@ -67,7 +63,6 @@ export const Form: FC = () => {
 
         <Button
           title="Criar uma conta"
-          style={{ marginTop: 16 }}
           onPress={handleRedirectToSignUp}
           variant="secondary"
         />

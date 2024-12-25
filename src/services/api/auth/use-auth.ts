@@ -5,46 +5,43 @@ import Toast from 'react-native-toast-message'
 
 import { useCurrentUser } from '@/contexts'
 
-import { useGetUserFromStorage } from '@/hooks'
-
 import {
   SignInUserMutationResponse,
   SignInUserProps,
 } from '@/services/api/auth/types'
 
 import { SECURE_STORE_PREFIX } from '@/config'
+import {
+  EXCEPTIONS_MESSAGES,
+  EXCEPTIONS_MESSAGES_KEYS,
+  EXCEPTIONS_MESSAGES_KEYS_TYPE,
+} from '@/config/exceptions'
 
 const SIGN_IN_USER_MUTATION = gql`
-  mutation SignIn($input: SignInUserInput!) {
-    signIn(input: $input) {
+  mutation SignIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
       token
-      errors
+      user {
+        id
+        email
+        firstName
+        lastName
+        phone
+      }
     }
   }
 `
 
 export const useSignInMutation = () => {
   const { setUser } = useCurrentUser()
-  const { getUserFromStorage } = useGetUserFromStorage()
 
   const [mutate, { loading, error, data }] =
     useMutation<SignInUserMutationResponse>(SIGN_IN_USER_MUTATION)
 
   const signInMutation = ({ payload, onError }: SignInUserProps) => {
     mutate({
-      variables: { input: payload },
+      variables: payload,
       onCompleted: async ({ signIn }) => {
-        if (signIn.errors.length > 0) {
-          if (onError) onError()
-
-          return signIn.errors.forEach((error) => {
-            Toast.show({
-              text1: error,
-              type: 'error',
-            })
-          })
-        }
-
         const { token } = signIn
 
         await SecureStore.setItemAsync(
@@ -52,13 +49,23 @@ export const useSignInMutation = () => {
           JSON.stringify(token),
         )
 
-        const user = getUserFromStorage(token)
+        setUser(signIn.user)
 
-        setUser(user)
-
-        router.push('/(authenticated)/dashboard')
+        router.push('/')
       },
-      onError: () => {
+      onError: (error) => {
+        if (EXCEPTIONS_MESSAGES_KEYS.includes(error.message)) {
+          if (onError) onError()
+
+          return Toast.show({
+            text1:
+              EXCEPTIONS_MESSAGES[
+                error.message as EXCEPTIONS_MESSAGES_KEYS_TYPE
+              ],
+            type: 'error',
+          })
+        }
+
         Toast.show({
           text1: 'Ocorreu um erro desconhecido ao realizar o login!',
           type: 'error',

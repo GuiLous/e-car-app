@@ -1,6 +1,6 @@
 import { ApolloProvider } from '@apollo/client'
 import { Slot, useRouter, useSegments } from 'expo-router'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
@@ -20,9 +20,6 @@ function ProtectedRouteLayout() {
     const inAuthGroup = segments[0] === '(authenticated)'
 
     if (!user && inAuthGroup) return router.replace('/')
-
-    if (user && !inAuthGroup)
-      return router.replace('/(authenticated)/dashboard')
   }, [user, segments])
 
   return <Slot />

@@ -1,6 +1,9 @@
+import { User } from '@/domain'
+
 export type SignInUserMutationResponse = {
   signIn: {
     token: string
+    user: User
     errors: string[]
   }
 }

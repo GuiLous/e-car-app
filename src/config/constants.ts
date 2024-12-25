@@ -1,1 +1,1 @@
-export const SECURE_STORE_PREFIX = 'ETERPARTY_'
+export const SECURE_STORE_PREFIX = 'ECAR_'

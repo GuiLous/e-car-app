@@ -6,7 +6,7 @@ export default function PublicLayout() {
   const { user } = useCurrentUser()
 
   if (user) {
-    return <Redirect href="/(authenticated)/dashboard" />
+    return <Redirect href="/" />
   }
 
   return (
