@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
-    "@react-native-picker/picker": "^2.9.0",
+    "@react-native-picker/picker": "2.7.5",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "expo": "~51.0.39",
     "expo-camera": "~15.0.16",
