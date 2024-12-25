@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "eterlay-app",
-    "slug": "eterlay-app",
+    "name": "ecar-app",
+    "slug": "ecar-app",
     "version": "1.0.0",
-    "scheme": "eterlay-app",
+    "scheme": "ecar-app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,14 +14,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.guilou.eterlayapp"
+      "bundleIdentifier": "com.guilou.ecarapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.guilou.eterlayapp"
+      "package": "com.guilou.ecarapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
