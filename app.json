@@ -3,6 +3,7 @@
     "name": "ecar-app",
     "slug": "ecar-app",
     "version": "1.0.0",
+    "newArchEnabled": true,
     "scheme": "ecar-app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
