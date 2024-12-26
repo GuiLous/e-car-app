@@ -1,93 +1,42 @@
 import { Feather } from '@expo/vector-icons'
-import { Tabs } from 'expo-router'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Tabs, usePathname } from 'expo-router'
 
-import { useCurrentUser } from '@/contexts'
-
-import { useLogout } from '@/hooks/use-logout'
-
-import { colors } from '@/config'
-
-type FeatherIconName = keyof typeof Feather.glyphMap
-
-type Tab = {
-  name: string
-  title: string
-  icon: FeatherIconName
-}
+import { colors, PAGES_TO_HIDE_TABS } from '@/config'
 
 export default function AuthenticatedLayout() {
-  const { user } = useCurrentUser()
-  const logout = useLogout()
-  const insets = useSafeAreaInsets()
-
-  const userName = `${user?.firstName} ${user?.lastName}`
-
-  const tabs: Tab[] = [
-    {
-      name: 'create_product',
-      title: 'Anunciar veículo',
-      icon: 'plus-circle',
-    },
-  ]
+  const pathname = usePathname()
 
   return (
-    <>
-      <View style={[styles.header, { paddingTop: insets.top }]}>
-        <Text style={styles.userName}>Olá, {userName}</Text>
-        <TouchableOpacity style={styles.logoutButton} onPress={logout}>
-          <Feather name="log-out" size={24} color={colors.error} />
-        </TouchableOpacity>
-      </View>
-
-      <Tabs
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: colors.gray[600],
-          tabBarInactiveTintColor: colors.gray[500],
-          tabBarStyle: {
-            height: 60,
-            paddingBottom: 8,
-            paddingTop: 8,
-          },
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.blue[500],
+        tabBarInactiveTintColor: colors.gray[500],
+        tabBarStyle: PAGES_TO_HIDE_TABS.includes(pathname)
+          ? { display: 'none' }
+          : {
+              height: 60,
+              paddingBottom: 8,
+              paddingTop: 8,
+            },
+      }}
+    >
+      <Tabs.Screen
+        name="home/index"
+        options={{
+          title: 'Início',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" size={size} color={color} />
+          ),
         }}
-      >
-        {tabs.map((tab) => (
-          <Tabs.Screen
-            key={tab.name}
-            name={tab.name}
-            options={{
-              title: tab.title,
-              tabBarIcon: ({ color, size }) => (
-                <Feather name={tab.icon} size={size} color={color} />
-              ),
-            }}
-          />
-        ))}
-      </Tabs>
-    </>
+      />
+
+      <Tabs.Screen
+        name="sign-in/index"
+        options={{
+          href: null,
+        }}
+      />
+    </Tabs>
   )
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray[300],
-    backgroundColor: colors.gray[200],
-    gap: 12,
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.gray[800],
-  },
-  logoutButton: {
-    padding: 8,
-  },
-})

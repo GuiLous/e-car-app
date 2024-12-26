@@ -17,6 +17,7 @@ interface InputProps extends TextInputProps {
   isPassword?: boolean
   error?: boolean
   multiline?: boolean
+  isSearch?: boolean
 }
 
 export const Input = ({
@@ -26,6 +27,7 @@ export const Input = ({
   secureTextEntry,
   error,
   multiline,
+  isSearch,
   ...rest
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -44,16 +46,21 @@ export const Input = ({
           isFocused && styles.inputContainerFocused,
           error && styles.inputContainerError,
           multiline && styles.inputContainerMultiline,
+          isSearch && styles.inputContainerSearch,
         ]}
       >
         <TextInput
-          style={[styles.input, multiline && styles.inputMultiline]}
+          style={[
+            styles.input,
+            multiline && styles.inputMultiline,
+            isSearch && styles.inputSearch,
+          ]}
           secureTextEntry={isPassword ? !showPassword : secureTextEntry}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           multiline={multiline}
           textAlignVertical={multiline ? 'top' : 'center'}
-          placeholderTextColor={colors.gray[300]}
+          placeholderTextColor={colors.gray[500]}
           {...rest}
         />
 
@@ -90,11 +97,11 @@ const styles = StyleSheet.create({
     height: 52,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: colors.gray[200],
+    borderColor: colors.gray[500],
     backgroundColor: colors.white,
   },
   inputContainerFocused: {
-    borderColor: colors.gray[800],
+    borderColor: colors.blue[500],
   },
   inputContainerError: {
     borderColor: colors.error,
@@ -103,6 +110,10 @@ const styles = StyleSheet.create({
     minHeight: 120,
     height: 'auto',
     alignItems: 'flex-start',
+  },
+  inputContainerSearch: {
+    height: 36,
+    borderRadius: 16,
   },
   input: {
     flex: 1,
@@ -117,6 +128,11 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 12,
     lineHeight: 24,
+  },
+  inputSearch: {
+    height: 36,
+    fontSize: 14,
+    color: colors.gray[700],
   },
   iconContainer: {
     paddingRight: 16,

@@ -62,7 +62,7 @@ export function Button({
 const styles = StyleSheet.create({
   button: {
     height: 52,
-    backgroundColor: colors.gray[600],
+    backgroundColor: colors.gray[800],
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',

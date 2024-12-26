@@ -14,6 +14,7 @@ import { toastConfig } from '@/config/toast'
 function ProtectedRouteLayout() {
   const { user } = useCurrentUser()
   const segments = useSegments()
+
   const router = useRouter()
 
   useEffect(() => {
