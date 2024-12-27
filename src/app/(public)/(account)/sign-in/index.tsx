@@ -1,5 +1,5 @@
+import { useFocusEffect } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
-import { useEffect } from 'react'
 import {
   Image,
   KeyboardAvoidingView,
@@ -13,12 +13,12 @@ import { Form, Greetings } from '@/components/fragments'
 
 import { colors, SECURE_STORE_PREFIX } from '@/config'
 
-import logo from '../../../../assets/logo.png'
+import logo from '../../../../../assets/logo.png'
 
 export default function SignIn() {
-  useEffect(() => {
+  useFocusEffect(() => {
     SecureStore.deleteItemAsync(SECURE_STORE_PREFIX + 'accessToken')
-  }, [])
+  })
 
   return (
     <KeyboardAvoidingView

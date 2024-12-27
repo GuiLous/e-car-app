@@ -28,6 +28,17 @@ export default function PublicLayout() {
               paddingBottom: 8,
               paddingTop: 8,
             },
+        headerStyle: {
+          backgroundColor: colors.black,
+          borderBottomWidth: 1,
+          borderBottomColor: colors.gray[200],
+        },
+        headerTitleStyle: {
+          color: colors.white,
+          textAlign: 'center',
+          fontWeight: 'bold',
+        },
+        headerTitleAlign: 'center',
       }}
     >
       <Tabs.Screen
@@ -44,17 +55,6 @@ export default function PublicLayout() {
         name="favorites/index"
         options={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.black,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.gray[200],
-          },
-          headerTitleStyle: {
-            color: colors.white,
-            textAlign: 'center',
-            fontWeight: 'bold',
-          },
-          headerTitleAlign: 'center',
           title: 'Favoritos',
           tabBarIcon: ({ color, size }) => (
             <Feather name="heart" size={size} color={color} />
@@ -73,7 +73,7 @@ export default function PublicLayout() {
       />
 
       <Tabs.Screen
-        name="sign-in/index"
+        name="(account)"
         options={{
           href: null,
         }}

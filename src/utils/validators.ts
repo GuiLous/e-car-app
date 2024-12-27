@@ -18,3 +18,28 @@ export const validateDate = (date: string) => {
 
   return true
 }
+
+export const verifyIfAgeIsValid = (birthDate: string) => {
+  const minimumAge = 18
+
+  const [dia, mes, ano] = birthDate.split('/')
+  const nascimento = new Date(Number(ano), Number(mes) - 1, Number(dia))
+
+  const today = new Date()
+
+  let age = today.getFullYear() - nascimento.getFullYear()
+
+  const currentMonth = today.getMonth()
+  const currentDay = today.getDate()
+  const birthMonth = nascimento.getMonth()
+  const birthDay = nascimento.getDate()
+
+  if (
+    currentMonth < birthMonth ||
+    (currentMonth === birthMonth && currentDay < birthDay)
+  ) {
+    age--
+  }
+
+  return age >= minimumAge
+}

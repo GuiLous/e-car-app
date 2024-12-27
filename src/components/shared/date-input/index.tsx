@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons'
-import React, { useEffect, useState } from 'react'
-import { TextInputProps } from 'react-native'
+import { useEffect, useState } from 'react'
+import { Text, TextInputProps, View } from 'react-native'
 
 import { Input } from '@/components/shared/input'
 
@@ -14,6 +14,7 @@ interface DateInputProps
   onChangeText: (text: string) => void
   label?: string
   error?: boolean
+  errorMessage?: string
 }
 
 export function DateInput({
@@ -21,6 +22,7 @@ export function DateInput({
   onChangeText,
   label,
   error,
+  errorMessage,
   ...rest
 }: DateInputProps) {
   const [hasError, setHasError] = useState(false)
@@ -44,6 +46,7 @@ export function DateInput({
 
   const handleChangeText = (text: string) => {
     const maskedText = maskDate(text)
+
     setRawValue(maskedText)
 
     if (maskedText.length === 10) {
@@ -53,7 +56,7 @@ export function DateInput({
       }
     }
 
-    onChangeText('')
+    onChangeText(maskedText)
     setHasError(true)
   }
 
@@ -62,22 +65,30 @@ export function DateInput({
   }, [value])
 
   return (
-    <Input
-      label={label}
-      value={rawValue}
-      onChangeText={handleChangeText}
-      placeholder="DD/MM/YYYY"
-      keyboardType="numeric"
-      maxLength={10}
-      error={error || hasError}
-      rightIcon={
-        <Feather
-          name="calendar"
-          size={20}
-          color={error ? colors.red[500] : colors.gray[500]}
-        />
-      }
-      {...rest}
-    />
+    <View style={{ gap: 8 }}>
+      <Input
+        label={label}
+        value={rawValue}
+        onChangeText={handleChangeText}
+        placeholder="DD/MM/YYYY"
+        keyboardType="numeric"
+        maxLength={10}
+        error={error || hasError}
+        rightIcon={
+          <Feather
+            name="calendar"
+            size={20}
+            color={error || hasError ? colors.red[500] : colors.gray[500]}
+          />
+        }
+        {...rest}
+      />
+
+      {(error || hasError) && errorMessage && (
+        <Text style={{ color: colors.red[500], fontSize: 12 }}>
+          {errorMessage}
+        </Text>
+      )}
+    </View>
   )
 }

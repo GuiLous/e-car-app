@@ -2,12 +2,15 @@ import { router } from 'expo-router'
 import { FC, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
+import { useSignUpStore } from '@/stores'
+
 import { useSignInMutation } from '@/services/api'
 
 import { Button, Input } from '@/components/shared'
 
 export const Form: FC = () => {
   const { signInMutation, loading } = useSignInMutation()
+  const { resetSignUpData } = useSignUpStore()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,7 +28,10 @@ export const Form: FC = () => {
     signInMutation({ payload: { email, password }, onError: handleErrorSignIn })
   }
 
-  const handleRedirectToSignUp = () => router.push('/sign-up')
+  const handleRedirectToSignUp = () => {
+    resetSignUpData()
+    router.push('/user-infos')
+  }
 
   useEffect(() => {
     if (hasError && (email || password)) handleClearError()
