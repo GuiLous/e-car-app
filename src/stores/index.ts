@@ -1,2 +1,2 @@
-export * from './scanner-store';
+export * from './favorites-store';
 
