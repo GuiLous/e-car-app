@@ -65,7 +65,7 @@ export default function PublicLayout() {
       <Tabs.Screen
         name="more/index"
         options={{
-          title: 'Mais',
+          title: 'Perfil',
           tabBarIcon: ({ color, size }) => (
             <Feather name="more-horizontal" size={size} color={color} />
           ),

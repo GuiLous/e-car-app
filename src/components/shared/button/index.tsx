@@ -15,6 +15,7 @@ interface ButtonProps extends TouchableOpacityProps {
   loading?: boolean
   leftIcon?: ReactNode
   variant?: 'primary' | 'secondary'
+  height?: number
 }
 
 export function Button({
@@ -23,6 +24,7 @@ export function Button({
   loading,
   leftIcon,
   variant = 'primary',
+  height,
   ...rest
 }: ButtonProps) {
   return (
@@ -31,6 +33,7 @@ export function Button({
       style={[
         styles.button,
         variant === 'secondary' && styles.buttonSecondary,
+        { height: height || 52 },
         style,
         rest.disabled && styles.buttonDisabled,
       ]}
@@ -61,7 +64,6 @@ export function Button({
 
 const styles = StyleSheet.create({
   button: {
-    height: 52,
     backgroundColor: colors.gray[800],
     borderRadius: 8,
     alignItems: 'center',
@@ -89,11 +91,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonSecondary: {
-    backgroundColor: colors.blue[500],
+    backgroundColor: colors.gray[50],
     borderWidth: 2,
-    borderColor: colors.blue[500],
+    borderColor: colors.gray[800],
   },
   buttonTextSecondary: {
-    color: colors.white,
+    color: colors.black,
   },
 })

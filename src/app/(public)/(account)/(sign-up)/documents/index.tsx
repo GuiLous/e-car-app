@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -13,21 +14,27 @@ import { Button, Input } from '@/components/shared'
 
 import { colors } from '@/config'
 
-import { applyInputMask } from '@/utils'
+import { applyInputMask, isValidCPF } from '@/utils'
 
 export default function Documents() {
   const { data, setField } = useSignUpStore()
 
-  const hasErrorOnFirstName = data.firstName === ''
-  const hasErrorOnLastName = data.lastName === ''
-  const hasErrorOnBirthDate = data.birthDate === ''
+  const hasErrorOnRg = data.rg === ''
+  const hasErrorOnCpf =
+    data.cpf === '' ||
+    !!(data.cpf && data.cpf.length < 11) ||
+    !!(data.cpf && !isValidCPF(data.cpf))
 
   const isButtonDisabled =
-    hasErrorOnFirstName || hasErrorOnLastName || hasErrorOnBirthDate
+    hasErrorOnRg || hasErrorOnCpf || !data.rg || !data.cpf
 
   const handleSetFields = (field: FieldSignUp, value: any) => {
+    if (field === 'cpf' && value.length > 11) return
+
     setField(field, value)
   }
+
+  const handleNext = () => router.push('/documents-photo')
 
   return (
     <KeyboardAvoidingView
@@ -41,27 +48,37 @@ export default function Documents() {
       >
         <View style={styles.formContainer}>
           <View style={styles.wrapper}>
-            <Text style={styles.title}>Informe os seus dados pessoais.</Text>
+            <Text style={styles.title}>
+              Informe os dados dos seus documentos.
+            </Text>
 
             <View style={styles.inputsWrapper}>
               <Input
                 label="RG *"
-                placeholder="Ex.: 999.999.999.999-9"
-                value={applyInputMask(data.rg || '', 'rg')}
-                error={hasErrorOnFirstName}
-                onChangeText={(text) => handleSetFields('rg', text)}
+                placeholder=""
+                value={data.rg}
+                error={hasErrorOnRg}
+                onChangeText={(text) =>
+                  handleSetFields('rg', text.replace(/\D/g, ''))
+                }
               />
               <Input
                 label="CPF *"
-                placeholder="Ex.: 999.999.999-99"
+                placeholder=""
                 value={applyInputMask(data.cpf || '', 'cpf')}
-                error={hasErrorOnLastName}
-                onChangeText={(text) => handleSetFields('cpf', text)}
+                error={hasErrorOnCpf}
+                onChangeText={(text) =>
+                  handleSetFields('cpf', text.replace(/\D/g, ''))
+                }
               />
             </View>
           </View>
 
-          <Button title="Avançar" disabled={isButtonDisabled} />
+          <Button
+            title="Avançar"
+            disabled={isButtonDisabled}
+            onPress={handleNext}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

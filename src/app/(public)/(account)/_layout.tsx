@@ -41,6 +41,38 @@ export default function SignUpLayout() {
           headerBackVisible: true,
         }}
       />
+
+      <Stack.Screen
+        name="(sign-up)/documents-photo/index"
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="(sign-up)/address/index"
+        options={{
+          title: 'Cadastro',
+          headerBackTitle: 'Voltar',
+          headerBackVisible: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="(sign-up)/contact/index"
+        options={{
+          title: 'Cadastro',
+          headerBackTitle: 'Voltar',
+          headerBackVisible: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="(sign-up)/success/index"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   )
 }

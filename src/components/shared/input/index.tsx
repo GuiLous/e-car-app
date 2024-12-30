@@ -97,11 +97,11 @@ const styles = StyleSheet.create({
     height: 52,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: colors.gray[500],
+    borderColor: colors.gray[400],
     backgroundColor: colors.white,
   },
   inputContainerFocused: {
-    borderColor: colors.blue[500],
+    borderColor: colors.gray[700],
   },
   inputContainerError: {
     borderColor: colors.error,

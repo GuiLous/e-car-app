@@ -6,10 +6,10 @@ type SignUpData = {
   birthDate: string
   cpf: string
   rg: string
-  documentPhoto: string
+  documentFrontPhoto: string
+  documentBackPhoto: string
   city: string
   complement: string
-  country: string
   formattedAddress: string
   latitude: number
   longitude: number

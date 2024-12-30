@@ -53,13 +53,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.gray[700],
+    color: colors.gray[500],
   },
   picker: {
-    borderWidth: 1,
-    borderColor: colors.gray[300],
+    borderWidth: 2,
+    borderColor: colors.gray[400],
     borderRadius: 8,
     backgroundColor: colors.white,
   },

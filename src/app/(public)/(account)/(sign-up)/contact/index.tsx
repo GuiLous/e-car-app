@@ -10,31 +10,29 @@ import {
 
 import { FieldSignUp, useSignUpStore } from '@/stores'
 
-import { Button, DateInput, Input } from '@/components/shared'
+import { Button, Input } from '@/components/shared'
 
 import { colors } from '@/config'
 
-import { verifyIfAgeIsValid } from '@/utils'
+import { applyInputMask, isValidCellphone, isValidEmail } from '@/utils'
 
-export default function UserInfos() {
+export default function Contact() {
   const { data, setField } = useSignUpStore()
 
-  const hasErrorOnFirstName = data.firstName === ''
-  const hasErrorOnLastName = data.lastName === ''
-  const isMinor = !!(data.birthDate && !verifyIfAgeIsValid(data.birthDate))
-  const hasErrorOnBirthDate = data.birthDate === '' || isMinor
+  const hasErrorOnEmail =
+    data.email === '' || !!(data.email && !isValidEmail(data.email))
+
+  const hasErrorOnPhone =
+    data.phone === '' || !!(data.phone && !isValidCellphone(data.phone))
 
   const isButtonDisabled =
-    hasErrorOnFirstName ||
-    hasErrorOnLastName ||
-    hasErrorOnBirthDate ||
-    !data.firstName ||
-    !data.lastName ||
-    !data.birthDate
+    hasErrorOnEmail || hasErrorOnPhone || !data.email || !data.phone
 
-  const handleNext = () => router.push('/documents')
+  const handleNext = () => router.push('/success')
 
   const handleSetFields = (field: FieldSignUp, value: any) => {
+    if (field === 'phone' && value.length > 11) return
+
     setField(field, value)
   }
 
@@ -51,33 +49,27 @@ export default function UserInfos() {
         <View style={styles.formContainer}>
           <View style={styles.wrapper}>
             <Text style={styles.title}>
-              Para começar, digite seus dados pessoais conforme seu documento.
+              Quase lá, precisamos de alguns dados para entrarmos em contato.
             </Text>
 
             <View style={styles.inputsWrapper}>
               <Input
-                label="Nome *"
-                placeholder="Ex.: João"
-                value={data.firstName}
-                error={hasErrorOnFirstName}
-                onChangeText={(text) => handleSetFields('firstName', text)}
+                label="Email *"
+                placeholder="Ex.: email@example.com"
+                value={data.email}
+                error={hasErrorOnEmail}
+                inputMode="email"
+                onChangeText={(text) => handleSetFields('email', text)}
               />
               <Input
-                label="Sobrenome *"
-                placeholder="Ex.: de Carmo Sousa"
-                value={data.lastName}
-                error={hasErrorOnLastName}
-                onChangeText={(text) => handleSetFields('lastName', text)}
-              />
-
-              <DateInput
-                label="Data de nascimento *"
-                value={data.birthDate || ''}
-                error={hasErrorOnBirthDate}
-                errorMessage={
-                  isMinor ? 'Voce precisa ser maior de idade' : undefined
+                label="Telefone *"
+                placeholder="Ex.: (99)99999-9999"
+                value={applyInputMask(data.phone || '', 'phone')}
+                error={hasErrorOnPhone}
+                inputMode="tel"
+                onChangeText={(text) =>
+                  handleSetFields('phone', text.replace(/\D/g, ''))
                 }
-                onChangeText={(text) => handleSetFields('birthDate', text)}
               />
             </View>
           </View>
@@ -107,6 +99,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     justifyContent: 'space-between',
+    gap: 32,
   },
   wrapper: {
     flex: 1,

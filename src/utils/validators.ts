@@ -43,3 +43,36 @@ export const verifyIfAgeIsValid = (birthDate: string) => {
 
   return age >= minimumAge
 }
+
+export const isValidCellphone = (cellphone: string) => {
+  const cleanCellphone = cellphone.replace(/\D/g, '').replace(/\s+/g, '')
+
+  return cleanCellphone.length >= 10
+}
+
+export const isValidCPF = (cpf: string): boolean => {
+  if (cpf.length !== 11) return false
+  if (/^(\d)\1{10}$/.test(cpf)) return false
+
+  const calculateCheckDigit = (num: string, factor: number): number => {
+    let total = 0
+    for (let i = 0; i < num.length; i++) {
+      total += parseInt(num[i]) * (factor - i)
+    }
+    const remainder = total % 11
+    return remainder < 2 ? 0 : 11 - remainder
+  }
+
+  const firstCheckDigit = calculateCheckDigit(cpf.slice(0, 9), 10)
+  const secondCheckDigit = calculateCheckDigit(cpf.slice(0, 10), 11)
+
+  return (
+    firstCheckDigit === parseInt(cpf[9]) &&
+    secondCheckDigit === parseInt(cpf[10])
+  )
+}
+
+export function isValidEmail(email: string) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return emailRegex.test(email)
+}
