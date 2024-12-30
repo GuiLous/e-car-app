@@ -9,9 +9,11 @@ import {
 
 import { FieldSignUp, useSignUpStore } from '@/stores'
 
-import { Button, DateInput, Input } from '@/components/shared'
+import { Button, Input } from '@/components/shared'
 
 import { colors } from '@/config'
+
+import { applyInputMask } from '@/utils'
 
 export default function Documents() {
   const { data, setField } = useSignUpStore()
@@ -39,31 +41,22 @@ export default function Documents() {
       >
         <View style={styles.formContainer}>
           <View style={styles.wrapper}>
-            <Text style={styles.title}>
-              Para começar, digite seus dados pessoais conforme seu documento.
-            </Text>
+            <Text style={styles.title}>Informe os seus dados pessoais.</Text>
 
             <View style={styles.inputsWrapper}>
               <Input
-                label="Nome *"
-                placeholder="Ex.: João"
-                value={data.firstName}
+                label="RG *"
+                placeholder="Ex.: 999.999.999.999-9"
+                value={applyInputMask(data.rg || '', 'rg')}
                 error={hasErrorOnFirstName}
-                onChangeText={(text) => handleSetFields('firstName', text)}
+                onChangeText={(text) => handleSetFields('rg', text)}
               />
               <Input
-                label="Sobrenome *"
-                placeholder="Ex.: de Carmo Sousa"
-                value={data.lastName}
+                label="CPF *"
+                placeholder="Ex.: 999.999.999-99"
+                value={applyInputMask(data.cpf || '', 'cpf')}
                 error={hasErrorOnLastName}
-                onChangeText={(text) => handleSetFields('lastName', text)}
-              />
-
-              <DateInput
-                label="Data de nascimento *"
-                value={data.birthDate || ''}
-                error={hasErrorOnBirthDate}
-                onChangeText={(text) => handleSetFields('birthDate', text)}
+                onChangeText={(text) => handleSetFields('cpf', text)}
               />
             </View>
           </View>

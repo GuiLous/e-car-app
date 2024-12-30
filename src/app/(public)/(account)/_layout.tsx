@@ -14,7 +14,6 @@ export default function SignUpLayout() {
         headerShown: true,
         headerBackVisible: true,
       }}
-      initialRouteName="sign-in/index"
     >
       <Stack.Screen
         name="sign-in/index"
